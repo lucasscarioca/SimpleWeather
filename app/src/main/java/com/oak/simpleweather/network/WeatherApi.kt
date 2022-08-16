@@ -1,5 +1,6 @@
 package com.oak.simpleweather.network
 
+import com.oak.simpleweather.model.Weather
 import com.oak.simpleweather.model.WeatherObject
 import com.oak.simpleweather.utils.Constants
 import retrofit2.http.GET
@@ -13,5 +14,5 @@ interface WeatherApi {
         @Query("q") query: String,
         @Query("units") units: String = "metric",
         @Query("appid") appid: String = Constants.API_KEY
-    ): WeatherObject
+    ): Weather
 }
