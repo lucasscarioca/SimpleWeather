@@ -67,14 +67,11 @@ fun MainScaffold(weather: Weather, navController: NavController) {
     }) {
         MainContent(data = weather)
     }
-
 }
 
 @Composable
 fun MainContent(data: Weather) {
-
     val weatherItem = data.list[0]
-    val imageUrl = "https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}.png"
 
     Column(
         modifier = Modifier
@@ -84,87 +81,14 @@ fun MainContent(data: Weather) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // Date
-        Text(
-            text = formatDate(weatherItem.dt),
-            style = MaterialTheme.typography.caption,
-            color = MaterialTheme.colors.onSecondary,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(6.dp)
-        )
-
-        Surface(
-            modifier = Modifier
-                .padding(4.dp)
-                .size(200.dp),
-            shape = CircleShape,
-            color = Color(0xFFFFC400)
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                // API weather icon
-                WeatherStateImage(imageUrl = imageUrl, imageSize = 80.dp)
-
-                // Temperature
-                Text(
-                    text = formatDecimals(weatherItem.temp.day) + "º",
-                    style = MaterialTheme.typography.h4,
-                    fontWeight = FontWeight.ExtraBold
-                )
-
-                // Weather
-                Text(
-                    text = weatherItem.weather[0].main,
-                    fontStyle = FontStyle.Italic
-                )
-            }
-        }
+        CurrentWeather(weather = weatherItem)
 
         HumidityWindPressureRow(weather = weatherItem)
+
         Divider()
+
         SunsetSunriseRow(weather = weatherItem)
 
-        Text(
-            text = "This Week",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold
-        )
-
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            color = Color(0xFFEEF1EF),
-            shape = RoundedCornerShape(size = 14.dp)
-        ) {
-
-            LazyColumn(
-                modifier = Modifier.padding(2.dp),
-                contentPadding = PaddingValues(1.dp)
-            ) {
-                items(items = data.list) { item: WeatherItem ->
-                    WeatherDetailRow(weather = item)
-                }
-            }
-
-        }
-
+        WeekWeatherSummary(data = data)
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
