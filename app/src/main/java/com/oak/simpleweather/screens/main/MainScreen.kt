@@ -32,17 +32,22 @@ import com.oak.simpleweather.R
 import com.oak.simpleweather.data.DataOrException
 import com.oak.simpleweather.model.Weather
 import com.oak.simpleweather.model.WeatherItem
+import com.oak.simpleweather.navigation.WeatherScreens
 import com.oak.simpleweather.utils.formatDate
 import com.oak.simpleweather.utils.formatDateTime
 import com.oak.simpleweather.utils.formatDecimals
 import com.oak.simpleweather.widgets.*
 
 @Composable
-fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
+fun MainScreen(
+    navController: NavController,
+    viewModel: MainViewModel = hiltViewModel(),
+    city: String?
+) {
 
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)) {
-        value = viewModel.getWeatherData(city = "gramado")
+        value = viewModel.getWeatherData(city = city.toString())
     }.value
 
     if (weatherData.loading == true){
@@ -60,6 +65,9 @@ fun MainScaffold(weather: Weather, navController: NavController) {
         WeatherAppBar(
             title = weather.city.name + ", ${weather.city.country}",
             navController = navController,
+            onAddActionClicked = {
+                                 navController.navigate(WeatherScreens.SearchScreen.name)
+            },
             elevation = 5.dp
         ) {
 
