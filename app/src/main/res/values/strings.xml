@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SimpleWeather</string>
+    <string name="about_app">SimpleWeather v0.1</string>
+    <string name="api_used">https://api.openweathermap.org</string>
 </resources>

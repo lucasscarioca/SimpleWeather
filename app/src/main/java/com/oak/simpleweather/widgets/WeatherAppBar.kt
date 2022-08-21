@@ -17,11 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.oak.simpleweather.navigation.WeatherScreens
 
 @Composable
 fun WeatherAppBar(
@@ -122,7 +122,13 @@ fun ShowSettingDropDownMenu(showDialog: MutableState<Boolean>, navController: Na
                     Text(
                         text = text,
                         modifier = Modifier.clickable {
-
+                                  navController.navigate(
+                                      when (text){
+                                          "About" -> WeatherScreens.AboutScreen.name
+                                          "Favorites" -> WeatherScreens.FavoritesScreen.name
+                                          "Settings" -> WeatherScreens.SettingsScreen.name
+                                          else -> WeatherScreens.AboutScreen.name
+                                      })
                         },
                         fontWeight = FontWeight.W300
                     )
