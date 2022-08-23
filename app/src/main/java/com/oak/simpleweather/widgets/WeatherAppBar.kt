@@ -96,11 +96,11 @@ fun WeatherAppBar(
                  }
                 if (isMainScreen) {
                     val isAlreadyFavList = favoriteViewModel
-                        .favList.collectAsState().value.filter { item ->
+                        .favList.collectAsState().value?.filter { item ->
                             (item.city == title.split(",")[0])
                         }
                     // City is not favorite
-                    if (isAlreadyFavList.isEmpty()) {
+                    if (isAlreadyFavList.isNullOrEmpty()) {
                         Icon(
                             imageVector = Icons.Default.FavoriteBorder,
                             contentDescription = "Favorite icon",
@@ -130,7 +130,7 @@ fun WeatherAppBar(
                                 .padding(start = 10.dp)
                                 .clickable {
                                     val favCity = favoriteViewModel
-                                        .favList.value.find {
+                                        .favList.value?.find {
                                         (it.city == title.split(",")[0])
                                     }
                                     if (favCity != null) {

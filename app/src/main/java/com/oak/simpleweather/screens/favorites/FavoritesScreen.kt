@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -44,9 +45,17 @@ fun FavoritesScreen(navController: NavController, favoriteViewModel: FavoriteVie
             ) {
                 val list = favoriteViewModel.favList.collectAsState().value
 
-                LazyColumn {
-                    items(items = list) {
-                        CityRow(it, navController = navController, favoriteViewModel)
+                if(list.isNullOrEmpty()) {
+                    Text(
+                        text = "You don't have cities pinned as favorite yet",
+                        style = MaterialTheme.typography.subtitle1,
+                        fontWeight = FontWeight.Light
+                    )
+                } else {
+                    LazyColumn {
+                        items(items = list) {
+                            CityRow(it, navController = navController, favoriteViewModel)
+                        }
                     }
                 }
             }
@@ -68,7 +77,7 @@ fun CityRow(
             .fillMaxWidth()
             .height(50.dp)
             .clickable {
-               navController.navigate(WeatherScreens.MainScreen.name + "/${favorite.city}")
+                navController.navigate(WeatherScreens.MainScreen.name + "/${favorite.city}")
             },
         shape = CircleShape.copy(topEnd = CornerSize(6.dp)),
         color = Color(0xFFB2DFDB)
