@@ -8,7 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,8 +25,15 @@ import com.oak.simpleweather.widgets.WeatherAppBar
 fun SettingsScreen(navController: NavController, settingsViewModel: SettingsViewModel = hiltViewModel()) {
 
     var unitToggleState by remember { mutableStateOf(false) }
+
     val measurementUnits = listOf("Imperial (F)", "Metric (C)")
-    var choiceState by remember { mutableStateOf("") }
+
+    val choiceFromDb = settingsViewModel.unitsList.collectAsState().value
+
+    val defaultChoice = if (choiceFromDb.isEmpty()) measurementUnits[0] else choiceFromDb[0].unit
+
+    var choiceState by remember { mutableStateOf(defaultChoice) }
+
 
     Scaffold(topBar = {
         WeatherAppBar(
@@ -35,7 +41,7 @@ fun SettingsScreen(navController: NavController, settingsViewModel: SettingsView
             icon = Icons.Default.ArrowBack,
             isMainScreen = false,
             navController = navController
-        )
+        ) { navController.popBackStack() }
     }) {
         Surface(modifier = Modifier
             .fillMaxWidth()
